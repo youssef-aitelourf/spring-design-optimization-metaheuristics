@@ -13,25 +13,25 @@ from experiments import ExperimentConfig, run_monte_carlo, save_experiment_outpu
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="TP1 - 8INF852 - Métaheuristiques")
-    parser.add_argument("--runs", type=int, default=50, help="Nombre d'exécutions Monte-Carlo par algorithme")
-    parser.add_argument("--max-iter", type=int, default=2000, help="Nombre maximal d'itérations")
+    parser = argparse.ArgumentParser(description="TP1 - 8INF852 - Metaheuristics")
+    parser.add_argument("--runs", type=int, default=50, help="Number of Monte Carlo runs per algorithm")
+    parser.add_argument("--max-iter", type=int, default=2000, help="Maximum number of iterations")
     parser.add_argument(
         "--stagnation-iter-limit",
         type=int,
         default=100,
-        help="Arrêt secondaire après N itérations sans amélioration significative",
+        help="Secondary stop after N iterations without significant improvement",
     )
-    parser.add_argument("--epsilon", type=float, default=1e-3, help="Seuil d'amélioration significative")
-    parser.add_argument("--seed", type=int, default=42, help="Seed de base")
-    parser.add_argument("--step-scale", type=float, default=0.05, help="Échelle du voisinage (normalisé)")
-    parser.add_argument("--lambda-neighbors", type=int, default=10, help="Nombre de voisins pour (1,lambda) et SA")
-    parser.add_argument("--penalty-coeff", type=float, default=1e6, help="Coefficient de pénalisation")
-    parser.add_argument("--sa-t0", type=float, default=1.0, help="Température initiale du SA")
-    parser.add_argument("--sa-alpha", type=float, default=0.995, help="Paramètre de refroidissement SA")
-    parser.add_argument("--sa-min-temperature", type=float, default=1e-6, help="Température minimale SA")
-    parser.add_argument("--sa-reheat-factor", type=float, default=1.5, help="Facteur de réchauffement SA")
-    parser.add_argument("--output-dir", type=str, default="outputs", help="Dossier des résultats")
+    parser.add_argument("--epsilon", type=float, default=1e-3, help="Significant improvement threshold")
+    parser.add_argument("--seed", type=int, default=42, help="Base seed")
+    parser.add_argument("--step-scale", type=float, default=0.05, help="Neighborhood scale (normalized)")
+    parser.add_argument("--lambda-neighbors", type=int, default=10, help="Number of neighbors for (1,lambda) and SA")
+    parser.add_argument("--penalty-coeff", type=float, default=1e6, help="Penalty coefficient")
+    parser.add_argument("--sa-t0", type=float, default=1.0, help="Initial SA temperature")
+    parser.add_argument("--sa-alpha", type=float, default=0.995, help="SA cooling parameter")
+    parser.add_argument("--sa-min-temperature", type=float, default=1e-6, help="Minimum SA temperature")
+    parser.add_argument("--sa-reheat-factor", type=float, default=1.5, help="SA reheating factor")
+    parser.add_argument("--output-dir", type=str, default="outputs", help="Results output directory")
     return parser.parse_args()
 
 
@@ -54,30 +54,30 @@ def main() -> None:
         sa_reheat_factor=args.sa_reheat_factor,
     )
 
-    print("[1/4] Lancement des simulations Monte-Carlo...")
+    print("[1/4] Running Monte Carlo simulations...")
     df = run_monte_carlo(config)
 
-    print("[2/4] Sauvegarde des historiques...")
+    print("[2/4] Saving run histories...")
     csv_path, pkl_path = save_experiment_outputs(df, output_dir)
 
-    print("[3/4] Calcul des statistiques finales...")
+    print("[3/4] Computing final statistics...")
     stats = final_statistics_table(df)
     stats_path = output_dir / "final_statistics.csv"
     stats.to_csv(stats_path, index=False)
 
-    print("[4/4] Génération des profils de convergence...")
+    print("[4/4] Generating convergence profiles...")
     profile_df = convergence_profile(df)
     profile_path = output_dir / "convergence_profile.csv"
     profile_df.to_csv(profile_path, index=False)
     plot_convergence_by_algo(profile_df, output_dir)
     comparative_path = plot_comparative_convergence(profile_df, output_dir)
 
-    print("Terminé.")
-    print(f"- Historique CSV: {csv_path}")
-    print(f"- Historique PKL: {pkl_path}")
-    print(f"- Statistiques: {stats_path}")
-    print(f"- Profil convergence: {profile_path}")
-    print(f"- Comparatif: {comparative_path}")
+    print("Done.")
+    print(f"- History CSV: {csv_path}")
+    print(f"- History PKL: {pkl_path}")
+    print(f"- Statistics: {stats_path}")
+    print(f"- Convergence profile: {profile_path}")
+    print(f"- Comparative plot: {comparative_path}")
 
 
 if __name__ == "__main__":

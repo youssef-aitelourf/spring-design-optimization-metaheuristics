@@ -42,12 +42,12 @@ def plot_convergence_by_algo(profile_df: pd.DataFrame, output_dir: Path) -> list
 
     for algo, data in profile_df.groupby("algo"):
         fig, ax = plt.subplots(figsize=(8, 5))
-        ax.plot(data["iteration"], data["median_cost"], label=f"{algo} - médiane")
+        ax.plot(data["iteration"], data["median_cost"], label=f"{algo} - median")
         ax.fill_between(data["iteration"], data["q1_cost"], data["q3_cost"], alpha=0.2, label="IQR")
         ax.set_yscale("log")
-        ax.set_xlabel("Itération")
-        ax.set_ylabel("Coût (pénalisé)")
-        ax.set_title(f"Profil de convergence: {algo}")
+        ax.set_xlabel("Iteration")
+        ax.set_ylabel("Penalized Cost")
+        ax.set_title(f"Convergence Profile: {algo}")
         ax.legend(loc="best")
         fig.tight_layout()
 
@@ -67,9 +67,9 @@ def plot_comparative_convergence(profile_df: pd.DataFrame, output_dir: Path) -> 
         ax.plot(data["iteration"], data["median_cost"], label=algo)
 
     ax.set_yscale("log")
-    ax.set_xlabel("Itération")
-    ax.set_ylabel("Médiane du coût pénalisé")
-    ax.set_title("Comparaison interalgorithmes des profils de convergence")
+    ax.set_xlabel("Iteration")
+    ax.set_ylabel("Median Penalized Cost")
+    ax.set_title("Cross-Algorithm Convergence Profile Comparison")
     ax.legend(loc="best")
     fig.tight_layout()
 
