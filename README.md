@@ -51,7 +51,3 @@ python main.py --runs 50 --max-iter 2000 --output-dir outputs_main
 
 Across 50 runs and 2000 iterations, Simulated Annealing variants provide the best median performance and robustness (lowest dispersion), followed by Generalized Hill Climbing.
 
-## Report
-
-- Public report PDF: `8INF852_TP01_H2025_AITELOURF-Youssef.pdf`
-
